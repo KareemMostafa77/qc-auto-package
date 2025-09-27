@@ -3,11 +3,9 @@ name: Angular CI/CD
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 permissions:
-  contents: write
+  contents: write   # allow pushing to gh-pages branch
 
 jobs:
   build-and-deploy:
@@ -35,9 +33,10 @@ jobs:
       - name: Copy index.html to 404.html
         run: cp dist/qc-auto-package/browser/index.html dist/qc-auto-package/browser/404.html
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (classic branch)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/qc-auto-package/browser
+          publish_dir: dist/qc-auto-package/browser
           force_orphan: true
+          enable_jekyll: false
