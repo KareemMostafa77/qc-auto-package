@@ -14,27 +14,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.19.0' # Adjust to your Angular version
+          node-version: '20.19.0'
           cache: 'npm'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
-
-      # Step 4: Build Angular app
       - name: Build Angular app
         run: npm run build -- --configuration production
 
-      # Step 5: Deploy to GitHub Pages
+      - name: List build output
+        run: ls -R dist/qc-auto-package/browser
+
+      - name: Copy index.html to 404.html
+        run: cp dist/qc-auto-package/browser/index.html dist/qc-auto-package/browser/404.html
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
