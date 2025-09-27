@@ -1,0 +1,43 @@
+name: Angular CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Node.js
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.19.0' # Adjust to your Angular version
+          cache: 'npm'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+
+      # Step 4: Build Angular app
+      - name: Build Angular app
+        run: npm run build -- --configuration production
+
+      # Step 5: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/my-angular-app/browser
+          force_orphan: true
