@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Build Angular
-        run: npm run build -- --configuration production
+        run: npm run build -- --configuration production --base-href /qc-auto-package/
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
