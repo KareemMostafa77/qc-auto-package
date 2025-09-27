@@ -1,11 +1,11 @@
-name: Angular CI/CD
+name: Angular CI/CD (classic)
 
 on:
   push:
     branches: [ main ]
 
 permissions:
-  contents: write   # allow pushing to gh-pages branch
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -15,25 +15,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Use Node.js
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '20.19.0'
-          cache: 'npm'
+          node-version: 20
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm install
 
-      - name: Build Angular app
+      - name: Build Angular
         run: npm run build -- --configuration production
 
-      - name: List build output
-        run: ls -R dist/qc-auto-package/browser
-
-      - name: Copy index.html to 404.html
-        run: cp dist/qc-auto-package/browser/index.html dist/qc-auto-package/browser/404.html
-
-      - name: Deploy to GitHub Pages (classic branch)
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
