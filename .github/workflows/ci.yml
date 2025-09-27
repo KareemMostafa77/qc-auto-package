@@ -39,5 +39,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/my-angular-app/browser
+          publish_dir: ./dist/qc-auto-package/browser
           force_orphan: true
