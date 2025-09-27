@@ -93,6 +93,36 @@
           }
         }
       }
+    },
+    "ng-qcauto": {
+      "projectType": "library",
+      "root": "projects/ng-qcauto",
+      "sourceRoot": "projects/ng-qcauto/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-qcauto/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ng-qcauto/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/ng-qcauto/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }
