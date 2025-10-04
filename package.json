@@ -1,6 +1,15 @@
 {
   "name": "qc-auto-package",
   "version": "0.0.0",
+  "description": "Development workspace for ng-qcauto - an Angular library for automatic test ID injection",
+  "keywords": [
+    "angular",
+    "test-automation",
+    "qa",
+    "testing",
+    "angular-library",
+    "workspace"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

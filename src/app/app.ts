@@ -27,7 +27,8 @@ export class App {
   protected readonly currentConfig = signal({
     tags: [] as string[],
     classes: [] as string[],
-    ids: [] as string[]
+    ids: [] as string[],
+    clickToCopy: false
   });
 
   constructor() {
@@ -39,9 +40,10 @@ export class App {
       const tags = JSON.parse(localStorage.getItem('qcAuto-tags') || '[]');
       const classes = JSON.parse(localStorage.getItem('qcAuto-classes') || '[]');
       const ids = JSON.parse(localStorage.getItem('qcAuto-ids') || '[]');
-      this.currentConfig.set({ tags, classes, ids });
+      const clickToCopy = localStorage.getItem('qcAuto-clickToCopy') === 'true';
+      this.currentConfig.set({ tags, classes, ids, clickToCopy });
     } catch {
-      this.currentConfig.set({ tags: [], classes: [], ids: [] });
+      this.currentConfig.set({ tags: [], classes: [], ids: [], clickToCopy: false });
     }
   }
 
@@ -49,13 +51,14 @@ export class App {
     localStorage.setItem('qcAuto-tags', JSON.stringify([]));
     localStorage.setItem('qcAuto-classes', JSON.stringify([]));
     localStorage.setItem('qcAuto-ids', JSON.stringify([]));
-    this.currentConfig.set({ tags: [], classes: [], ids: [] });
+    localStorage.setItem('qcAuto-clickToCopy', 'false');
+    this.currentConfig.set({ tags: [], classes: [], ids: [], clickToCopy: false });
     location.reload();
   }
 
   // Copy methods
   protected copyBasicConfig() {
-    this.copyToClipboard("localStorage.setItem('qcAuto-tags', JSON.stringify(['button', 'input', 'form']));");
+    this.copyToClipboard("localStorage.setItem('qcAuto-tags', JSON.stringify(['button', 'input', 'form'])); localStorage.setItem('qcAuto-clickToCopy', 'true'); location.reload();");
   }
 
   protected copyReload() {
@@ -74,12 +77,16 @@ export class App {
     this.copyToClipboard("localStorage.setItem('qcAuto-ids', JSON.stringify(['saveBtn', 'demoForm']));");
   }
 
+  protected copyClickToCopyConfig() {
+    this.copyToClipboard("localStorage.setItem('qcAuto-clickToCopy', 'true');");
+  }
+
   protected copyCypressExample() {
-    this.copyToClipboard('cy.get(\'[data-qcauto="qc_button_saveBtn"]\').click();');
+    this.copyToClipboard('// Full ID (route-specific)\ncy.get(\'[data-qcauto="qc_home_button_saveBtn"]\').click();\n\n// Pattern matching (route-independent)\ncy.get(\'[data-qcauto$="button_saveBtn"]\').click();\n\n// All buttons on home route\ncy.get(\'[data-qcauto^="qc_home_button"]\').should(\'exist\');');
   }
 
   protected copyPlaywrightExample() {
-    this.copyToClipboard('await page.locator(\'[data-qcauto="qc_form_demoForm"]\').fill(\'test\');');
+    this.copyToClipboard('// Full ID\nawait page.locator(\'[data-qcauto="qc_home_form_demoForm"]\').fill(\'test\');\n\n// Route-independent\nawait page.locator(\'[data-qcauto*="form_demoForm"]\').fill(\'test\');');
   }
 
   protected copyToClipboard(text: string) {

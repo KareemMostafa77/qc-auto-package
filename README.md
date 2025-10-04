@@ -1,10 +1,23 @@
-# 📘 `ng-qcauto`
+# 📘 `ng-qcauto` v2.0
 
 **Effortless, stable test IDs for Angular apps, controlled by testers — not code.**
 
 ---
+## 🔎 How IDs Are Generated (v2.0)
 
-## 🌟 Overview
+IDs follow this pattern: **`qc_{route}_{tag}_{identifier}`**
+
+**Examples**:
+- `/dashboard` route → `qc_dashboard_button_abc123`
+- `/users/profile` route → `qc_users_profile_input_xyz789`
+- Root `/` route → `qc_home_form_loginForm`
+
+**Identifier Logic**:
+1. If element has `data-qc-key` → used directly (`qc_dashboard_li_42`)
+2. Else if element has `id` → reused (`qc_dashboard_form_loginForm`)  
+3. Else → deterministic hash (`qc_dashboard_button_1k9d2`)
+
+IDs remain stable across reloads as long as **route** and **structure** don't change. Overview
 `ng-qcauto` is an Angular utility library that **automatically injects stable `data-qcauto` attributes** into DOM elements.  
 
 It empowers **QA and test automation teams** by providing **deterministic, human-friendly selectors** without requiring developers to clutter templates with `data-testid`.  
@@ -12,8 +25,10 @@ It empowers **QA and test automation teams** by providing **deterministic, human
 ### ✨ Key Features
 - 🔄 **Automatic injection** — works globally, no directives or template edits.  
 - 🎯 **Configurable** — track elements by **tag**, **class**, or **ID**.  
-- 🔑 **Stable IDs** — deterministic hashes, with support for `data-qc-key` in lists.  
-- 🧑‍🤝‍🧑 **Tester-friendly** — configuration lives in `localStorage`, editable in DevTools.  
+- 🔑 **Route-based stable IDs** — IDs include route path for better organization.  
+- ⌨️ **Ctrl+Q+C Modal** — Easy configuration interface without DevTools.  
+- 🖱️ **Right-click to Copy** — Quickly copy QC IDs during testing.  
+- 🧑‍🤝‍🧑 **Tester-friendly** — configuration lives in `localStorage`, manageable via modal.  
 - 🚦 **Test-only mode** — enable in dev/staging, disable in prod.  
 - ⚡ **Lightweight** — observer-based, minimal performance impact.  
 - 🏗 **Angular v14 and below + v15+ support** — works in both module-based and standalone bootstraps.  
@@ -76,16 +91,34 @@ bootstrapApplication(AppComponent).then(() => {
 
 `ng-qcauto` reads its configuration from **localStorage**.  
 
-### 1. Add Targets in DevTools
+### 1️⃣ Open Configuration Modal
+Press **Ctrl+Q+C** (or **Cmd+Q+C** on Mac) anywhere in the app to open the configuration modal:
+
+```
+┌─────────────────────────────────────┐
+│  QC Auto Configuration           ✕  │
+├─────────────────────────────────────┤
+│  Tags: button, input, a             │
+│  Classes: btn-primary               │
+│  IDs: saveBtn                       │
+│  ☑ Enable Click-to-Copy QC IDs     │
+│                                     │
+│         [Save & Reload] [Cancel]    │
+└─────────────────────────────────────┘
+```
+
+**OR** use DevTools Console:
 ```js
 localStorage.setItem('qcAuto-tags', JSON.stringify(['button','input','a']));
 localStorage.setItem('qcAuto-classes', JSON.stringify(['btn-primary']));
 localStorage.setItem('qcAuto-ids', JSON.stringify(['saveBtn']));
+localStorage.setItem('qcAuto-clickToCopy', 'true');
 location.reload();
 ```
 
-### 2. Example Template
+### 2️⃣ Example Template
 ```html
+<!-- On /dashboard route -->
 <button>Save</button>
 <button class="btn-primary">Submit</button>
 <form id="loginForm"> ... </form>
@@ -97,14 +130,22 @@ location.reload();
 </ul>
 ```
 
-### 3. After Render
+### 3️⃣ After Render
 ```html
-<button data-qcauto="qc_button_1k9d2">Save</button>
-<button class="btn-primary" data-qcauto="qc_button_btn-primary">Submit</button>
-<form id="loginForm" data-qcauto="qc_form_loginForm"> ... </form>
+<!-- On /dashboard route -->
+<button data-qcauto="qc_dashboard_button_1k9d2">Save</button>
+<button class="btn-primary" data-qcauto="qc_dashboard_button_btn-primary">Submit</button>
+<form id="loginForm" data-qcauto="qc_dashboard_form_loginForm"> ... </form>
 
-<li data-qc-key="42" data-qcauto="qc_li_42">John Doe</li>
+<li data-qc-key="42" data-qcauto="qc_dashboard_li_42">John Doe</li>
 ```
+
+### 4️⃣ Copy QC IDs (NEW!)
+When **Click-to-Copy** is enabled:
+1. Elements with QC IDs show a **pointer cursor** 👆
+2. **Right-click** any element to copy its QC ID
+3. A toast notification appears: `✓ qc_dashboard_button_1k9d2`
+4. Paste anywhere: `Ctrl+V`
 
 ---
 
@@ -123,12 +164,18 @@ IDs remain stable across reloads as long as structure doesn’t change.
 - `qcAuto-tags` → Array of tag names (e.g. `['button','input']`)  
 - `qcAuto-classes` → Array of class names (e.g. `['btn-primary']`)  
 - `qcAuto-ids` → Array of element IDs (e.g. `['loginForm']`)  
+- `qcAuto-clickToCopy` → Boolean string (`'true'` or `'false'`) for right-click copy mode
+
+### ⌨️ Keyboard Shortcut
+- **Ctrl+Q+C** (Windows/Linux) or **Cmd+Q+C** (Mac) → Opens configuration modal
+- Press again to close modal
 
 ### Reset Config
 ```js
 localStorage.setItem('qcAuto-tags', JSON.stringify([]));
 localStorage.setItem('qcAuto-classes', JSON.stringify([]));
 localStorage.setItem('qcAuto-ids', JSON.stringify([]));
+localStorage.setItem('qcAuto-clickToCopy', 'false');
 location.reload();
 ```
 
@@ -138,8 +185,14 @@ location.reload();
 
 ### Cypress
 ```js
-cy.get('[data-qcauto="qc_form_loginForm"]').should('be.visible');
-cy.get('[data-qcauto^="qc_button"]').click();
+// Full ID
+cy.get('[data-qcauto="qc_dashboard_form_loginForm"]').should('be.visible');
+
+// Pattern matching (all buttons on dashboard)
+cy.get('[data-qcauto^="qc_dashboard_button"]').click();
+
+// By route prefix
+cy.get('[data-qcauto^="qc_users_profile"]').should('exist');
 ```
 
 Custom command:
@@ -149,12 +202,25 @@ Cypress.Commands.add('qc', selector =>
 );
 
 // Usage
-cy.qc('qc_form_loginForm').submit();
+cy.qc('qc_dashboard_form_loginForm').submit();
+cy.qc('qc_users_profile_button_save').click();
 ```
 
 ### Playwright
 ```ts
-await page.locator('[data-qcauto="qc_li_42"]').click();
+// Direct selector
+await page.locator('[data-qcauto="qc_dashboard_li_42"]').click();
+
+// Route-based pattern
+await page.locator('[data-qcauto^="qc_checkout"]').count();
+```
+
+### Selenium
+```java
+// Java
+WebElement element = driver.findElement(
+  By.cssSelector("[data-qcauto='qc_dashboard_button_submit']"));
+element.click();
 ```
 
 ---

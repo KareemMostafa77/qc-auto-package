@@ -1,8 +1,9 @@
 <div class="landing-page">
   <!-- Header -->
   <header class="header">
-    <h1>📘 ng-qcauto</h1>
+    <h1>📘 ng-qcauto <span style="font-size: 0.5em; color: #4CAF50;">v2.0</span></h1>
     <p class="subtitle">Effortless, stable test IDs for Angular apps</p>
+    <p class="subtitle" style="font-size: 0.9em; margin-top: 5px;">⌨️ Press <kbd>Ctrl+Q+C</kbd> to configure | 🖊️ Right-click to copy IDs</p>
     <div class="install">
       <code>npm install ng-qcauto</code>
     </div>
@@ -14,37 +15,53 @@
 
       <!-- What it does -->
       <section class="section">
-        <h2>🎯 What it does</h2>
-        <p>ng-qcauto automatically adds <code>data-qcauto</code> attributes to your DOM elements.
-        Testers can configure which elements to track via localStorage - no code changes needed!</p>
+        <h2>🎯 What's New in v2.0</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+          <div style="padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <h3 style="margin: 0 0 10px 0;">🛣️ Route-Based IDs</h3>
+            <p style="margin: 0; font-size: 0.9em;">IDs now include route path:<br><code>qc_dashboard_button_save</code></p>
+          </div>
+          <div style="padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <h3 style="margin: 0 0 10px 0;">⌨️ Ctrl+Q+C Modal</h3>
+            <p style="margin: 0; font-size: 0.9em;">Easy config interface<br>No DevTools needed!</p>
+          </div>
+          <div style="padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <h3 style="margin: 0 0 10px 0;">🖊️ Right-Click Copy</h3>
+            <p style="margin: 0; font-size: 0.9em;">Quickly copy QC IDs<br>Toast notifications!</p>
+          </div>
+        </div>
       </section>
 
       <!-- Try it now -->
       <section class="section try-section">
-        <h2>🧪 Try it now (3 simple steps)</h2>
+        <h2>🧪 Try it now (2 simple steps!)</h2>
 
         <div class="steps">
           <div class="step">
-            <h3>Step 1: Configure what to track</h3>
-            <p>Press F12, open Console, paste this command and press Enter:</p>
+            <h3>Step 1: Open Configuration Modal</h3>
+            <p>Press <kbd style="background: #333; color: white; padding: 3px 8px; border-radius: 3px; font-family: monospace;">Ctrl+Q+C</kbd> anywhere on this page</p>
+            <ul style="margin: 10px 0; padding-left: 20px; font-size: 0.95em;">
+              <li>Add tags: <code>button, input, form</code></li>
+              <li>Enable <strong>"Click-to-Copy QC IDs"</strong></li>
+              <li>Click <strong>"Save & Reload"</strong></li>
+            </ul>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">👉 Or use console (old way):</p>
             <div class="code-block">
-              <code>localStorage.setItem('qcAuto-tags', JSON.stringify(['button', 'input', 'form']));</code>
+              <code>localStorage.setItem('qcAuto-tags', JSON.stringify(['button', 'input', 'form'])); localStorage.setItem('qcAuto-clickToCopy', 'true'); location.reload();</code>
               <button class="copy-btn" (click)="copyBasicConfig()">📋 Copy</button>
             </div>
           </div>
 
           <div class="step">
-            <h3>Step 2: Reload the page</h3>
-            <p>Type this in console or press Ctrl+R:</p>
-            <div class="code-block">
-              <code>location.reload();</code>
-              <button class="copy-btn" (click)="copyReload()">📋 Copy</button>
-            </div>
-          </div>
-
-          <div class="step">
-            <h3>Step 3: Inspect elements below</h3>
-            <p>Right-click on any button/input below → "Inspect Element" → Look for <code>data-qcauto</code> attributes!</p>
+            <h3>Step 2: Right-Click to Copy IDs</h3>
+            <p>Right-click any button/input below to copy its QC ID!</p>
+            <ul style="margin: 10px 0; padding-left: 20px; font-size: 0.95em;">
+              <li>👆 Tracked elements show pointer cursor</li>
+              <li>🖊️ Right-click copies the ID instantly</li>
+              <li>✅ Toast shows: <code>✓ qc_home_button_xyz</code></li>
+              <li>📋 Paste with Ctrl+V in your tests</li>
+            </ul>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">Or inspect: Right-click → "Inspect Element" → Look for <code>data-qcauto</code></p>
           </div>
         </div>
       </section>
@@ -84,6 +101,9 @@
       <!-- Configuration -->
       <section class="section config-section">
         <h2>⚙️ Configuration Options</h2>
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+          <strong>✨ New in v2.0:</strong> Use <kbd>Ctrl+Q+C</kbd> for visual configuration! No need for console commands.
+        </div>
         <div class="config-grid">
           <div class="config-item">
             <h3>Track by Tags</h3>
@@ -108,17 +128,36 @@
               <button class="copy-btn" (click)="copyIdsConfig()">📋</button>
             </div>
           </div>
+
+          <div class="config-item">
+            <h3>🆕 Click-to-Copy Mode</h3>
+            <div class="code-block">
+              <code>localStorage.setItem('qcAuto-clickToCopy', 'true');</code>
+              <button class="copy-btn" (click)="copyClickToCopyConfig()">📋</button>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- Quick Examples -->
       <section class="section examples-section">
-        <h2>📝 Use in Tests</h2>
+        <h2>📝 Use in Tests (v2.0 Route-Based IDs)</h2>
+        <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2196F3;">
+          <strong>🛣️ Route-based format:</strong> <code>qc_{{ '{{' }}route{{ '}}' }}_{{ '{{' }}tag{{ '}}' }}_{{ '{{' }}identifier{{ '}}' }}</code><br>
+          <span style="font-size: 0.9em;">Example: On <code>/home</code> route → <code>qc_home_button_saveBtn</code></span>
+        </div>
         <div class="example-tabs">
           <div class="example">
             <h3>Cypress</h3>
             <div class="code-block">
-              <pre><code>cy.get('[data-qcauto="qc_button_saveBtn"]').click();</code></pre>
+              <pre><code>// Full ID (route-specific)
+cy.get('[data-qcauto="qc_home_button_saveBtn"]').click();
+
+// Pattern matching (route-independent)
+cy.get('[data-qcauto$="button_saveBtn"]').click();
+
+// All buttons on home route
+cy.get('[data-qcauto^="qc_home_button"]').should('exist');</code></pre>
               <button class="copy-btn" (click)="copyCypressExample()">📋</button>
             </div>
           </div>
@@ -126,7 +165,11 @@
           <div class="example">
             <h3>Playwright</h3>
             <div class="code-block">
-              <pre><code>await page.locator('[data-qcauto="qc_form_demoForm"]').fill('test');</code></pre>
+              <pre><code>// Full ID
+await page.locator('[data-qcauto="qc_home_form_demoForm"]').fill('test');
+
+// Route-independent
+await page.locator('[data-qcauto*="form_demoForm"]').fill('test');</code></pre>
               <button class="copy-btn" (click)="copyPlaywrightExample()">📋</button>
             </div>
           </div>
@@ -146,6 +189,9 @@
           <div *ngIf="currentConfig().ids.length">
             <strong>IDs:</strong> {{ currentConfig().ids.join(', ') }}
           </div>
+          <div *ngIf="currentConfig().clickToCopy !== undefined">
+            <strong>Click-to-Copy:</strong> <span *ngIf="currentConfig().clickToCopy">✅ Enabled</span><span *ngIf="!currentConfig().clickToCopy">❌ Disabled</span>
+          </div>
         </div>
         <button class="btn secondary" (click)="clearConfig()">Clear Configuration</button>
       </section>
@@ -155,6 +201,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>📦 ng-qcauto v{{ version() }} • MIT License • <a href="https://github.com/your-repo/ng-qcauto" target="_blank">GitHub</a></p>
+    <p>📦 ng-qcauto v2.0 • MIT License • <a href="https://github.com/KareemMostafa77/qc-auto-package" target="_blank">GitHub</a></p>
+    <p style="font-size: 0.9em; margin-top: 10px; color: #666;">⌨️ Press <kbd>Ctrl+Q+C</kbd> to configure | 🖊️ Right-click tracked elements to copy IDs</p>
   </footer>
 </div>

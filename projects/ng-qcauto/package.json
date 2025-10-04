@@ -1,6 +1,33 @@
 {
   "name": "ng-qcauto",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "keywords": [
+    "angular",
+    "test-automation",
+    "qa",
+    "testing",
+    "test-ids",
+    "data-attributes",
+    "e2e-testing",
+    "selenium",
+    "cypress",
+    "playwright",
+    "test-selectors",
+    "dom-automation",
+    "quality-assurance",
+    "test-utilities",
+    "angular-library",
+    "mutation-observer",
+    "stable-selectors",
+    "automated-testing",
+    "frontend-testing",
+    "ng-library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KareemMostafa77/qc-auto-package.git"
+  },
+  "homepage": "https://kareemmostafa77.github.io/qc-auto-package/",
   "peerDependencies": {
     "@angular/common": "^20.3.0",
     "@angular/core": "^20.3.0"
