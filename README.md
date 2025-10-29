@@ -26,7 +26,7 @@ It empowers **QA and test automation teams** by providing **deterministic, human
 - 🔄 **Automatic injection** — works globally, no directives or template edits.  
 - 🎯 **Configurable** — track elements by **tag**, **class**, or **ID**.  
 - 🔑 **Route-based stable IDs** — IDs include route path for better organization.  
-- ⌨️ **Ctrl+Q+C Modal** — Easy configuration interface without DevTools.  
+- ⌨️ **Ctrl+Q Modal** — Easy configuration interface without DevTools.  
 - 🖱️ **Right-click to Copy** — Quickly copy QC IDs during testing.  
 - 🧑‍🤝‍🧑 **Tester-friendly** — configuration lives in `localStorage`, manageable via modal.  
 - 🚦 **Test-only mode** — enable in dev/staging, disable in prod.  
@@ -92,7 +92,7 @@ bootstrapApplication(AppComponent).then(() => {
 `ng-qcauto` reads its configuration from **localStorage**.  
 
 ### 1️⃣ Open Configuration Modal
-Press **Ctrl+Q+C** (or **Cmd+Q+C** on Mac) anywhere in the app to open the configuration modal:
+Press **Ctrl+Q** (or **Cmd+Q** on Mac) anywhere in the app to open the configuration modal:
 
 ```
 ┌─────────────────────────────────────┐
@@ -167,7 +167,7 @@ IDs remain stable across reloads as long as structure doesn’t change.
 - `qcAuto-clickToCopy` → Boolean string (`'true'` or `'false'`) for right-click copy mode
 
 ### ⌨️ Keyboard Shortcut
-- **Ctrl+Q+C** (Windows/Linux) or **Cmd+Q+C** (Mac) → Opens configuration modal
+- **Ctrl+Q** (Windows/Linux) or **Cmd+Q** (Mac) → Opens configuration modal
 - Press again to close modal
 
 ### Reset Config

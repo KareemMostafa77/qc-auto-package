@@ -62,7 +62,7 @@ export function initQcAutoGlobal() {
   // Inject styles for modal and toast
   injectModalStyles();
 
-  // Setup keyboard shortcut listener (Ctrl+Q+C)
+  // Setup keyboard shortcut listener (Ctrl+Q)
   setupKeyboardShortcut();
 
   // Setup click-to-copy if enabled
@@ -176,7 +176,7 @@ function showToast(message: string) {
   setTimeout(() => toast.remove(), 2000);
 }
 
-// Keyboard Shortcut System (Ctrl+Q+C)
+// Keyboard Shortcut System (Ctrl+Q)
 let keySequence: string[] = [];
 let keySequenceTimeout: any = null;
 
@@ -195,9 +195,9 @@ function setupKeyboardShortcut() {
         keySequence = [];
       }, 1000);
 
-      // Check if sequence matches Ctrl+Q+C
+      // Check if sequence matches Ctrl+Q
       const sequenceStr = keySequence.join('');
-      if (sequenceStr.includes('q') && sequenceStr.includes('c')) {
+      if (sequenceStr.includes('q')) {
         e.preventDefault();
         openConfigModal();
         keySequence = [];
@@ -323,6 +323,13 @@ function injectModalStyles() {
   const style = document.createElement('style');
   style.id = 'qc-auto-styles';
   style.textContent = `
+    /* Force LTR direction and prevent color overrides */
+    .qc-config-modal,
+    .qc-config-modal * {
+      direction: ltr !important;
+      color: inherit !important;
+    }
+
     .qc-config-modal {
       position: fixed;
       top: 0;
@@ -358,7 +365,7 @@ function injectModalStyles() {
     .qc-modal-header h2 {
       margin: 0;
       font-size: 20px;
-      color: #333;
+      color: #333 !important;
     }
 
     .qc-modal-close {
@@ -366,7 +373,7 @@ function injectModalStyles() {
       border: none;
       font-size: 28px;
       cursor: pointer;
-      color: #999;
+      color: #999 !important;
       padding: 0;
       width: 30px;
       height: 30px;
@@ -377,7 +384,7 @@ function injectModalStyles() {
     }
 
     .qc-modal-close:hover {
-      color: #333;
+      color: #333 !important;
     }
 
     .qc-modal-body {
@@ -392,7 +399,7 @@ function injectModalStyles() {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
-      color: #333;
+      color: #333 !important;
       font-size: 14px;
     }
 
@@ -407,7 +414,7 @@ function injectModalStyles() {
 
     .qc-form-group input[type="text"]:focus {
       outline: none;
-      border-color: #4CAF50;
+      border-color: #4CAF50 !important;
     }
 
     .qc-checkbox-group label {
@@ -443,21 +450,21 @@ function injectModalStyles() {
     }
 
     .qc-btn-primary {
-      background: #4CAF50;
-      color: white;
+      background: #4CAF50 !important;
+      color: white !important;
     }
 
     .qc-btn-primary:hover {
-      background: #45a049;
+      background: #45a049 !important;
     }
 
     .qc-btn-secondary {
-      background: #f0f0f0;
-      color: #333;
+      background: #f0f0f0 !important;
+      color: #333 !important;
     }
 
     .qc-btn-secondary:hover {
-      background: #e0e0e0;
+      background: #e0e0e0 !important;
     }
 
     /* Toast notification */
@@ -465,8 +472,8 @@ function injectModalStyles() {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #323232;
-      color: white;
+      background: #323232 !important;
+      color: white !important;
       padding: 12px 20px;
       border-radius: 4px;
       z-index: 1000000;

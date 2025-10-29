@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Example: `qc_dashboard_button_save` instead of `qc_button_save`
   - Routes like `/users/profile` become `users_profile` in the ID
   
-- **Visual Configuration Modal**: New keyboard shortcut `Ctrl+Q+C` (or `Cmd+Q+C` on Mac) opens an interactive configuration modal
+- **Visual Configuration Modal**: New keyboard shortcut `Ctrl+Q` (or `Cmd+Q` on Mac) opens an interactive configuration modal
   - No more need to use DevTools console
   - User-friendly interface with text inputs for tags, classes, and IDs
   - Toggle for visual ID indicators
@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `setupClickToCopy()`: Sets up right-click event listener for copying QC IDs
 - `copyToClipboard()`: Handles ID copying with fallback support
 - `showToast()`: Displays temporary notification messages
-- `setupKeyboardShortcut()`: Listens for Ctrl+Q+C key sequence
+- `setupKeyboardShortcut()`: Listens for Ctrl+Q key sequence
 - `injectModalStyles()`: Injects CSS for modal and toast notifications
 
 #### Styling
